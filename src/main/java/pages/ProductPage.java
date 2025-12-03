@@ -11,36 +11,30 @@ import java.time.Duration;
 public class ProductPage {
     private WebDriver driver;
     private WebDriverWait wait;
-    private By quantityDecrease = By.cssSelector(".sign-0-3-460.sign-d6-0-3-589.null");
-    private By quantityIncrease = By.cssSelector(".sign-0-3-460.sign-d6-0-3-589.disabled-0-3-462");
+    private By quantityIncrease = By.cssSelector("svg[aria-label='לחץ להגדלת כמות']");
     private By quantityDisplay = By.cssSelector(".quantity-0-3-461");
-    private By addToCartButton = By.cssSelector(".MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedSecondary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorSecondary.MuiButton-root.MuiButton-contained.MuiButton-containedSecondary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorSecondary.muirtl-4w0j7a");
+    private By addToCartButton = By.cssSelector("div[class^='addToCart'] button");
     private By cartQuantityIcon= By.cssSelector(".MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.muirtl-yg8mj6");
     private By popUpAddToCart=By.cssSelector("span[tabindex='0']");
-    private By goToCart=By.cssSelector(".MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-colorPrimary.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-colorPrimary.button-0-3-82.muirtl-f9j014");
+    private By goToCart=By.cssSelector("[aria-label='עגלה']");
     private String popUpAddToCartText="המוצר התווסף בהצלחה לעגלת הקניות";
     public ProductPage(WebDriver driver){
         this.driver=driver;
         this.wait=new WebDriverWait(driver, Duration.ofSeconds(10));
+        System.out.println("enter product page");
+
     }
     public ProductPage setQuantityForProduct(int quantity) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(quantityDisplay));
+        System.out.println("set quantity of product");
 
-        WebElement quantityText = driver.findElement(quantityDisplay);
-        int currentQuantity = Integer.parseInt(quantityText.getText());
-
-        while (currentQuantity < quantity) {
+        for (int j = 1; j < quantity; j++) {
             driver.findElement(quantityIncrease).click();
-            currentQuantity++;
-        }
-
-        while (currentQuantity > quantity) {
-            driver.findElement(quantityDecrease).click();
-            currentQuantity--;
         }
         return this;
     }
     public ProductPage addToCart(){
+        System.out.println("add to cart");
+
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
         return this;
     }

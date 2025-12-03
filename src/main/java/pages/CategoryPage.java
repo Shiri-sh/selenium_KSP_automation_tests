@@ -12,9 +12,10 @@ public class CategoryPage {
      private WebDriverWait wait;
 
     private By categoryList=By.cssSelector("div[class^='categories'] a");
-    private By productsList=By.cssSelector("div[class^='products'] div");
-
-    // Cart locators
+    private By productsList=By.cssSelector("div[class^='products'] div[class^='product']");
+    private By productLink=By.cssSelector("a[class^='productTitle']");
+    private By productName=By.cssSelector("h1[aria-label] span");
+    private By productPrice=By.cssSelector("div[class^='currentPrice']");
     private By cartIcon = By.cssSelector("#cart-toggle");
     private By cartCount = By.cssSelector("#cart-count");
 
@@ -23,31 +24,22 @@ public class CategoryPage {
          this.wait=new WebDriverWait(driver,Duration.ofSeconds(15));
      }
      public CategoryPage getInCategoryByIndex(int category){
-        for (int i=0;i<3;i++) {
-            try {
-                List<WebElement> categories = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(categoryList));
-                ;
-                categories.get(category).click();
-                return this;
-            } catch (Exception e) {
+         //List<WebElement> categories =
+         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(categoryList)).get(category).click();
+        //categories.get(category).click();
+         System.out.println("enter category page");
 
-            }
-        }
-        throw new RuntimeException("Category list keep going stale");
+        return this;
      }
      public ProductPage selectProduct(int prodIndex){
-        for(int i=0; i<3;i++) {
-            try {
-                List<WebElement> products = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productsList));
-                WebElement product = products.get(prodIndex);
+         System.out.println("enter selectProduct");
 
-                wait.until(ExpectedConditions.elementToBeClickable(product));
-                product.click();
-                return new ProductPage(driver);
-            } catch (Exception e) {
+        //List<WebElement> products =
+         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productsList)).get(prodIndex).click();
+       // WebElement product = products.get(prodIndex);
 
-            }
-        }
-        throw new RuntimeException("Product list keeps going stale");
+//        wait.until(ExpectedConditions.elementToBeClickable(product));
+//        product.click();
+        return new ProductPage(driver);
      }
 }

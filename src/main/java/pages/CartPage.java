@@ -10,7 +10,7 @@ public class CartPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    private By cartItems = By.cssSelector(".rtl-17wlwch div");
+    private By cartItems = By.cssSelector(".rtl-ydxmko div");
     private By cartTotal = By.cssSelector(".rtl-or331j");
     private By priceOfProduct=By.cssSelector(".rtl-1xvycce");
     private By nameOfProduct=By.cssSelector("");

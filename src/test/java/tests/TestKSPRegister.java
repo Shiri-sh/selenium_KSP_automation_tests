@@ -32,7 +32,7 @@ public class TestKSPRegister {
     @Test
     public void fillFormWithInvalidPhone(){
         RegisterPage registerPage=new RegisterPage(driver);
-        registerPage.fillAll("shiri","shachor","shiril@gmail.com","0548483","!Shiri123","!Shiri123");
+        registerPage.fillAll("shiri","shachor","shiri"+System.currentTimeMillis()+"@gmail.com","0548483","!Shiri123","!Shiri123");
 
         registerPage.register();
         Assert.assertTrue(registerPage.textHelperDisplayed());
@@ -47,14 +47,14 @@ public class TestKSPRegister {
     @Test
     public void fillFormWithWrongSecondPass(){
         RegisterPage registerPage=new RegisterPage(driver);
-        registerPage.fillAll("shiri","shachor","shirim@gmail.com","0548483430","!Shiri1234","!Shiri123");
+        registerPage.fillAll("shiri","shachor","shiri"+System.currentTimeMillis()+"@gmail.com","0548483430","!Shiri1234","!Shiri123");
         registerPage.register();
         Assert.assertTrue(registerPage.textHelperDisplayed());
     }
     @Test
     public void fillFormWithInvalidFName(){
         RegisterPage registerPage=new RegisterPage(driver);
-        registerPage.fillAll("s","shachor","shirik@gmail.com","0548483430","!Shiri123","!Shiri123");
+        registerPage.fillAll("s","shachor","shiri"+System.currentTimeMillis()+"@gmail.com","0548483430","!Shiri123","!Shiri123");
         registerPage.register();
         Assert.assertTrue(registerPage.textHelperDisplayed());
 
@@ -62,14 +62,14 @@ public class TestKSPRegister {
     @Test
     public void fillFormWithInvalidLName(){
         RegisterPage registerPage=new RegisterPage(driver);
-        registerPage.fillAll("shiri","s","shirij@gmail.com","0548483430","!Shiri123","!Shiri123");
+        registerPage.fillAll("shiri","s","shiri"+System.currentTimeMillis()+"@gmail.com","0548483430","!Shiri123","!Shiri123");
         registerPage.register();
         Assert.assertTrue(registerPage.textHelperDisplayed());
     }
     @Test
     public void fillFormWithValidData(){
         RegisterPage registerPage=new RegisterPage(driver);
-        registerPage.fillAll("shiri","shachor","shirish@gmail.com","0548483430","!Shiri123","!Shiri123");
+        registerPage.fillAll("shiri","shachor","shiri"+System.currentTimeMillis()+"@gmail.com","0548483430","!Shiri123","!Shiri123");
         registerPage.register();
         Assert.assertFalse(registerPage.textHelperDisplayed());
     }
