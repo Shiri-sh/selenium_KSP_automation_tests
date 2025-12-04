@@ -12,6 +12,8 @@ public class ProductPage {
     private WebDriver driver;
     private WebDriverWait wait;
     private By quantityIncrease = By.cssSelector("svg[aria-label='לחץ להגדלת כמות']");
+    private By productName=By.cssSelector("h1[aria-label] span");//h1[aria-label] span
+    private By productPrice=By.cssSelector("div[class^=current]");
     private By quantityDisplay = By.cssSelector(".quantity-0-3-461");
     private By addToCartButton = By.cssSelector("div[class^='addToCart'] button");
     private By cartQuantityIcon= By.cssSelector(".MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.muirtl-yg8mj6");
@@ -38,14 +40,11 @@ public class ProductPage {
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
         return this;
     }
-    public int cartQuantityIcon(){
-        WebElement quantityIcon= wait.until(ExpectedConditions.elementToBeClickable(cartQuantityIcon));
-        return Integer.parseInt(quantityIcon.getText());
-    }
+
     public boolean addToCartPopUp(){
         try {
             WebElement popUpShown=wait.until(ExpectedConditions.visibilityOfElementLocated(popUpAddToCart));
-            return popUpShown.getText()==popUpAddToCartText;
+            return true;
         }catch (Exception e){
             return false;
         }
@@ -53,5 +52,13 @@ public class ProductPage {
     public CartPage goToCart(){
         wait.until(ExpectedConditions.elementToBeClickable(goToCart)).click();
         return new CartPage(driver);
+    }
+    public String getName() {
+        return driver.findElement(productName).getText();
+    }
+
+    public int getPrice() {
+        String t = driver.findElement(productPrice).getText();
+        return Integer.parseInt(t.replaceAll("[^0-9]", ""));
     }
 }

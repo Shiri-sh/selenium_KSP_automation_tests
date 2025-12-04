@@ -13,8 +13,8 @@ public class CartPage {
     private By cartItems = By.cssSelector(".rtl-ydxmko div");
     private By cartTotal = By.cssSelector(".rtl-or331j");
     private By priceOfProduct=By.cssSelector(".rtl-1xvycce");
-    private By nameOfProduct=By.cssSelector("");
-    private By quantityOfProduct=By.cssSelector("");
+    private By nameOfProduct=By.cssSelector("a.rtl-1sivrne");
+    private By quantityOfProduct=By.cssSelector(".rtl-1iiwiev");
     public CartPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -43,13 +43,4 @@ public class CartPage {
         WebElement totalElement = driver.findElement(cartTotal);
         return Integer.parseInt(totalElement.getText());
     }
-    public boolean isCartEmpty() {
-        try {
-            WebElement emptyMessage = driver.findElement(By.xpath("//*[contains(text(), 'Cart is empty')]"));
-            return emptyMessage.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 }
