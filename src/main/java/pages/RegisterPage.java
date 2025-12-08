@@ -71,7 +71,12 @@ public class RegisterPage {
         return this;
     }
     public boolean textHelperDisplayed(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(helperText)).isDisplayed();
+        try{
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(helperText)).isDisplayed();
+
+        }catch (Exception e){
+            return false;
+        }
     }
     public void register(){
         wait.until(ExpectedConditions.elementToBeClickable(submitButt)).click();

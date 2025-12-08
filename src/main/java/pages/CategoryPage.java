@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.List;
+import org.openqa.selenium.StaleElementReferenceException;
 public class CategoryPage {
      private WebDriver driver;
      private WebDriverWait wait;
@@ -33,24 +34,41 @@ public class CategoryPage {
 
         return this;
      }
-     public ProductPage selectProduct(int prodIndex){
-//         System.out.println("enter selectProduct");
-//         WebElement p=wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productsList)).get(prodIndex);
-//         wait.until(ExpectedConditions.stalenessOf(p));
-//         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productsList)).get(prodIndex).findElement(productLink).click();
-//
-//        return new ProductPage(driver);
-         List<WebElement> products = wait.until(
-                 ExpectedConditions.visibilityOfAllElementsLocatedBy(productLinksList)
-         );
+    public ProductPage selectProduct(int prodIndex) {
+        long stableRequired = 30_000; // 30 seconds
+        long lastStableTime = System.currentTimeMillis();
 
-         WebElement product = products.get(prodIndex);
+        WebElement product = null;
 
-         //WebElement link = product.findElement(productLink);
+        while (true) {
+            try {
+                List<WebElement> products =
+                        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productLinksList));
 
-         wait.until(ExpectedConditions.elementToBeClickable(product)).click();
+                product = products.get(prodIndex);
 
-         return new ProductPage(driver);
-     }
+                // ננסה לגעת בו – אם הוא stale נקבל שגיאה
+                product.isDisplayed();
 
+                // אם הגענו לפה – האלמנט יציב כרגע
+                if (System.currentTimeMillis() - lastStableTime >= stableRequired) {
+                    break; // יציב 30 שניות – אפשר לצאת
+                }
+
+            } catch (StaleElementReferenceException e) {
+                // האלמנט נהיה stale – מאפסים את הזמן
+                lastStableTime = System.currentTimeMillis();
+            }
+
+            // השהייה קצרה כדי לא לרוץ חזק מדי
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ignored) {}
+        }
+
+        // עכשיו האלמנט יציב 30 שניות ברצף – לוחצים
+        wait.until(ExpectedConditions.elementToBeClickable(product)).click();
+
+        return new ProductPage(driver);
+    }
 }
